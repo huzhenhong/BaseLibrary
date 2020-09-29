@@ -1,0 +1,9 @@
+
+set(${This}_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
+
+set(${This}_LINK_DIRS ${CMAKE_INSTALL_PREFIX}/lib)
+
+set(${This}_LIBRARIES ${This})
+
+# get_filename_component(DIR ${ROOT_DIR}/cmake PATH)
+# include(${DIR}/${This}Target.cmake)

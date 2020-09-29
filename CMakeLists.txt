@@ -1,0 +1,47 @@
+
+# 最外层的必须有这两项
+cmake_minimum_required (VERSION 3.8)
+
+set(This BaseLibrary)
+project(${This} C CXX)
+
+message(STATUS "Project binary dir : " ${PROJECT_BINARY_DIR})
+message(STATUS "Project source dir : " ${PROJECT_SOURCE_DIR})
+
+# Meta information about the project
+set(META_PROJECT_NAME        ${This})
+set(META_PROJECT_DESCRIPTION "CMake project of my base library")
+set(META_AUTHOR_ORGANIZATION "HULUWA")
+set(META_AUTHOR_MAINTAINER   "huluwa508@outlook.com")
+set(META_VERSION_MAJOR       "1")
+set(META_VERSION_MINOR       "0")
+set(META_VERSION_PATCH       "0")
+set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
+set(META_NAME_VERSION        "${META_PROJECT_NAME} v${META_VERSION}")
+
+# Create version file
+file(WRITE "${PROJECT_BINARY_DIR}/VERSION" "${META_NAME_VERSION}")
+
+
+
+# 设置语言标准
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+set(ROOT_DIR ${CMAKE_SOURCE_DIR})
+
+# 设置输出路径，VS会自动新建Debug和Release文件夹
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
+
+# # 分别设置Debug和Release输出目录
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Lib)
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Lib)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Bin/Debug)
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Lib)
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Lib)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Bin/Release)
+
+add_subdirectory(src)
+add_subdirectory(test)
