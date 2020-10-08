@@ -55,21 +55,15 @@ void CLoggerImp::Write(const string& msg, LogLevel level)
 
 	m_fileStream.seekp(0, std::ios::end);
 	auto size = m_fileStream.tellp();
-	if (size > 1 * 1024 * 1024)
+	if (size > m_logFileSize)
 	{
 		m_fileStream.close();
 		
 		static int backupIdx = 0;
 		++backupIdx;
 
-		// 备份当前文件
-		auto oldName = m_logPath.string();
-		auto newName = oldName + "_" + to_string(backupIdx);
-		auto i = std::rename(oldName.data(), newName.data());
-		m_backupFiles.emplace_back(newName);
-
 		// 只保留最近的几个文件
-		if (m_backupFiles.size() > m_maxFiles)
+		if (m_backupFiles.size() >= m_maxFiles)
 		{
 			// 删除最先备份的文件
 			auto filename = m_backupFiles.front();
@@ -77,18 +71,28 @@ void CLoggerImp::Write(const string& msg, LogLevel level)
 			m_backupFiles.pop_front();
 
 			// 重命名备份文件
-			for (auto& filename : m_backupFiles)
+			for (auto& backupName : m_backupFiles)
 			{
-				auto backname = filename;
-				char idx = filename.back();
-				filename.pop_back();
+				auto logName = backupName.substr(0, backupName.rfind("."));	// 去掉后缀
+
+				char idx = logName.back();
+				logName.pop_back();
 				--idx;
-				filename.push_back(idx);
-				std::rename(backname.data(), filename.data());
+				logName.push_back(idx);
+				auto newName = logName + ".log";
+
+				std::rename(backupName.data(), newName.data());
 			}
 
 			--backupIdx;
 		}
+
+		// 备份当前文件
+		auto logPathName = m_logPath.string();
+		auto logName = logPathName.substr(0, logPathName.rfind("."));	// 去掉后缀
+		auto backupName = logName + "_" + to_string(backupIdx) + ".log";
+		std::rename(logPathName.data(), backupName.data());
+		m_backupFiles.emplace_back(backupName);
 
 		// 打开新的文件
 		m_fileStream.open(m_logPath, std::ios::out | std::ios::trunc);

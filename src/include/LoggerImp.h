@@ -35,6 +35,8 @@ private:
 
 	LogLevel							m_level { LogLevel::LEVEL_DEBUG };
 
+	int									m_logFileSize { 10 * 1024 * 1024 };
+
 	int									m_maxFiles { 5 };
 
 	deque<string>						m_backupFiles;

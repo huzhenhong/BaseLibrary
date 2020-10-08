@@ -64,7 +64,11 @@ namespace Util
 #ifndef __linux__
 		if (0 == GetModuleFileName(NULL, pFullPath, 1000)) { return ""; }
 #else
-		if (!getcwd(pFullPath, 1000)) { return ""; }
+		char link[100];
+
+		sprintf(link, "/proc/%d/exe", getpid()); 
+		int i = readlink(link, pFullPath, sizeof(pFullPath));
+		pFullPath[i] = '\0';
 #endif
 		filesystem::path path(pFullPath);
 		auto filename = path.filename();
