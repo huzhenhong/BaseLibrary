@@ -1,4 +1,15 @@
-﻿#ifndef __BASEDEFINE_H__
+﻿/*************************************************************************************
+ * Description  : 
+ * Version      : 1.0
+ * Author       : huzhenhong
+ * Date         : 2020-10-01 09:51:22
+ * LastEditors  : huzhenhong
+ * LastEditTime : 2020-10-08 23:24:14
+ * FilePath     : \\BaseLibrary\\src\\include\\BaseDefine.h
+ * Copyright (C) 2020 huzhenhong. All rights reserved.
+ *************************************************************************************/
+
+#ifndef __BASEDEFINE_H__
 #define __BASEDEFINE_H__
 
 #if (defined (WIN32) || defined (WIN64))
